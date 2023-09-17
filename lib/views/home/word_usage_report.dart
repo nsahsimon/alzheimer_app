@@ -12,7 +12,17 @@ import 'package:get/get.dart';
 import 'result_analyze.dart';
 
 class WordUsageReportScreen extends StatelessWidget {
-  const WordUsageReportScreen({super.key});
+  final double repeatedWords;
+  final double misspelling;
+  final double simplifiedPhrases;
+  const WordUsageReportScreen({
+    required this.repeatedWords,
+    required this.misspelling,
+    required this.simplifiedPhrases
+});
+
+
+  double get risk => ((repeatedWords + misspelling) * 100 / 200);
 
   @override
   Widget build(BuildContext context) {
@@ -54,49 +64,49 @@ class WordUsageReportScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               40.ph,
-              kUsageReportWidget(mediaSize: mediaSize,title: 'Misspelling',value: '15'),
-              kUsageReportWidget(mediaSize: mediaSize,title: 'Repeated words',value: '5'),
-              kUsageReportWidget(mediaSize: mediaSize,title: 'Simplified phrases',value: '15'),
+              kUsageReportWidget(mediaSize: mediaSize,title: 'Misspelling',value: misspelling.toStringAsFixed(2)),
+              kUsageReportWidget(mediaSize: mediaSize,title: 'Repeated words',value: repeatedWords.toStringAsFixed(2)),
+              // kUsageReportWidget(mediaSize: mediaSize,title: 'Simplified phrases',value: simplifiedPhrases.toStringAsFixed(2)),
               30.ph,
               kCustomButton(
                 height: mediaSize.height*0.11,
                 width: mediaSize.width,
                 onPressFunction: () {
-                  Get.to(()=> ResultAnalyzeScreen());
+                  Get.to(()=> ResultAnalyzeScreen(risk: risk));
                 },
-                text: 'LOW RISK',
-                textStyle: TextStyle(color: Color(0xffE5E5E5),fontSize: 28,fontWeight: FontWeight.w700),
-                backgroundColor: kGreenButtonColor,
+                text: risk < 50 ? 'LOW RISK' : 'HIGH RISK',
+                textStyle: TextStyle(color: Color(0xffE5E5E5) ,fontSize: 28,fontWeight: FontWeight.w700),
+                backgroundColor: risk < 50 ? kGreenButtonColor : Colors.red,
               ),
               30.ph,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    height: 70,
-                    width: 70,
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: Color(0xffFFFCFC),
-                      border: Border.all(color: Colors.black.withOpacity(0.5)),
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-                    child: Image.asset(Assets.assetsPrint,),
-                  ),
-                  10.pw,
-                  Container(
-                    height: 70,
-                    width: 70,
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: Color(0xffFFFCFC),
-                        border: Border.all(color: Colors.black.withOpacity(0.5)),
-                        borderRadius: BorderRadius.circular(20)
-                    ),
-                    child: Image.asset(Assets.assetsDownload,),
-                  )
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     Container(
+              //       height: 70,
+              //       width: 70,
+              //       padding: EdgeInsets.all(15),
+              //       decoration: BoxDecoration(
+              //         color: Color(0xffFFFCFC),
+              //         border: Border.all(color: Colors.black.withOpacity(0.5)),
+              //         borderRadius: BorderRadius.circular(20)
+              //       ),
+              //       child: Image.asset(Assets.assetsPrint,),
+              //     ),
+              //     10.pw,
+              //     Container(
+              //       height: 70,
+              //       width: 70,
+              //       padding: EdgeInsets.all(15),
+              //       decoration: BoxDecoration(
+              //           color: Color(0xffFFFCFC),
+              //           border: Border.all(color: Colors.black.withOpacity(0.5)),
+              //           borderRadius: BorderRadius.circular(20)
+              //       ),
+              //       child: Image.asset(Assets.assetsDownload,),
+              //     )
+              //   ],
+              // ),
               20.ph,
             ],
           ),

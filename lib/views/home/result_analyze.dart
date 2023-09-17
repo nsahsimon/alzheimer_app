@@ -11,11 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ResultAnalyzeScreen extends StatelessWidget {
-  const ResultAnalyzeScreen({super.key});
+  final double risk;
+  const ResultAnalyzeScreen({required this.risk});
 
   @override
   Widget build(BuildContext context) {
     Size mediaSize = MediaQuery.of(context).size;
+    double progressLength = mediaSize.width * 0.6;
 
     return Scaffold(
       appBar: AppBar(
@@ -47,18 +49,17 @@ class ResultAnalyzeScreen extends StatelessWidget {
         child: Container(
           height: mediaSize.height,
           width: mediaSize.width,
-          padding: EdgeInsets.symmetric(horizontal: 50),
           color: kBackgroundColorStartAnalyze,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               40.ph,
-              Text('Based on our analysis,\nyou are',style: TextStyle(fontSize: 22,),),
-              Text('LOW RISK',style: TextStyle(fontSize: 42,color: kGreenButtonColor,fontWeight: FontWeight.bold),),
+              Text('Based on our analysis,\nyou are', textAlign: TextAlign.center, style: TextStyle(fontSize: 22,),),
+              Text(risk < 50 ? 'LOW RISK' : 'HIGH RISK',style: TextStyle(fontSize: 42,color: risk < 50 ? kGreenButtonColor : Colors.red,fontWeight: FontWeight.bold),),
               30.ph,
               Container(
                 height: 30,
-                width: mediaSize.width,
+                width: progressLength,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -68,29 +69,29 @@ class ResultAnalyzeScreen extends StatelessWidget {
                   children: [
                   Container(
                   height: 30,
-                  width: mediaSize.width*0.15,
+                  width: progressLength * risk / 100,
                   decoration: BoxDecoration(
                     color: Colors.lightGreenAccent,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.black),
                   )
                   ),
-                    Center(child: Text('15%'),),
+                    Center(child: Text(risk.toStringAsFixed(2)+'%'),),
                   ],
                 ),
               ),
               30.ph,
-              Container(
-                height: 70,
-                width: 70,
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    color: Color(0xffFFFCFC),
-                    border: Border.all(color: Colors.black.withOpacity(0.5)),
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                child: Image.asset(Assets.assetsDownload,),
-              ),
+              // Container(
+              //   height: 70,
+              //   width: 70,
+              //   padding: EdgeInsets.all(15),
+              //   decoration: BoxDecoration(
+              //       color: Color(0xffFFFCFC),
+              //       border: Border.all(color: Colors.black.withOpacity(0.5)),
+              //       borderRadius: BorderRadius.circular(20)
+              //   ),
+              //   child: Image.asset(Assets.assetsDownload,),
+              // ),
               20.ph,
             ],
           ),
