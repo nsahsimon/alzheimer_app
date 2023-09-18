@@ -11,7 +11,7 @@ class AIService {
   Future<Map<String, dynamic>?> processText(String textInput) async {
     debugPrint("Generating result JSON");
     final apiEndpoint = "https://api.openai.com/v1/chat/completions";//'https://api.openai.com/v1/chat/completions';
-    final apiKey = "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"; //'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'; // Replace with your OpenAI API key
+    final apiKey = "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"; //'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'; // Replace with your OpenAI API key
 
     textInput = textInput.replaceAll("  ", " ");
     textInput = textInput.replaceAll("   ", " ");
